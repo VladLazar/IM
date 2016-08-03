@@ -5,14 +5,13 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="" method="post">
-        <label>Username:</label>
-        <input id="username" name="username" type="text"/>
-
-        <label>Password:</label>
-        <input id="password" name="password" type="text"/>
-
-        <input type="submit">
-    </form>
+    <div>
+        <form action="/login" method="post">
+            {{ form.csrf_token }}
+            {{ form.username.label }} {{ form.username(size=20) }}
+            {{ form.password.label }} {{ form.password(size=20) }}
+            <input type="submit" value="Login">
+        </form>
+    </div>
 </body>
 </html>
