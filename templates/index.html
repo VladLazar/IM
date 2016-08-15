@@ -6,6 +6,11 @@
 </head>
 <body>
     <h1>You registered and logged in!</h1>
-    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+    <h1>Logged in Users:</h1>
+    <ul>
+        {% for user in authenticated_users %}
+            <li><p>{{user.username}}</p></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

@@ -25,7 +25,8 @@ from models import User, db
 @app.route('/')
 @login_required
 def index():
-    return render_template('index.html')
+    authenticated_users = User.query.filter_by(authenticated=True).all()
+    return render_template('index.html', authenticated_users=authenticated_users)
 
 
 @login_manager.user_loader
