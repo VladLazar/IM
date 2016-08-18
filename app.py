@@ -38,7 +38,7 @@ def user_loader(user_id):
 def register():
     form = RegisterForm()
     if request.method == 'GET':
-        return render_template('login_try.html', form=form)
+        return render_template('register.html', form=form)
     if form.validate_on_submit():
         username = form.username.data
         password = bcrypt.generate_password_hash(form.password.data)
