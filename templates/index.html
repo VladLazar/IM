@@ -9,7 +9,7 @@
     <h1>Logged in Users:</h1>
     <ul>
         {% for user in authenticated_users %}
-            <li><p>{{user.username}}</p></li>
+            <li><p><a href="{{ url_for('conversation', partner_username=user.username)}}">{{user.username}}</a></p></li>
         {% endfor %}
     </ul>
     <p><a href="{{ url_for('logout') }}">Logout</a></p>

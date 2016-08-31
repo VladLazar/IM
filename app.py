@@ -5,6 +5,9 @@ from flask_login import login_user, logout_user, current_user, login_required, L
 from flask_sqlalchemy import SQLAlchemy
 import os
 from forms import LoginForm, RegisterForm
+from flask import json
+import jsonpickle
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -19,7 +22,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-from models import User, db
+from models import User, Conversation, Message, db
 
 
 @app.route('/')
@@ -34,11 +37,15 @@ def user_loader(user_id):
     return User.query.get(user_id)
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/register', methods=['GET'])
+def register_get():
     form = RegisterForm()
-    if request.method == 'GET':
-        return render_template('register.html', form=form)
+    return render_template('register.html', form=form)
+
+
+@app.route('/register', methods=['POST'])
+def register_post():
+    form = RegisterForm()
     if form.validate_on_submit():
         username = form.username.data
         password = bcrypt.generate_password_hash(form.password.data)
@@ -47,14 +54,20 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('User successfully registered')
-        return redirect(url_for('login'))
+        return redirect(url_for('login_get'))
+    return render_template('register.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/login', methods=['GET'])
+def login_get():
     form = LoginForm()
     if request.method == 'GET':
         return render_template('login.html', form=form)
+
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
@@ -66,6 +79,53 @@ def login():
                 flash('Logged in successfully!')
                 return redirect(url_for('index'))
     return render_template('login.html', form=form)
+
+
+@app.route('/conversation/<partner_username>')
+def conversation(partner_username):
+    found = False
+    partner_user = User.query.filter_by(username=partner_username).first()
+    all_conversations = Conversation.query.all()
+    if all_conversations:
+        for current in all_conversations:
+            users_in_current = current.users
+            # If the users are alone in the conversation
+            if (current_user in users_in_current) and (partner_user in users_in_current) and len(users_in_current) <= 2:
+                found = True
+                return render_template('chat.html', conversation_id=current.id,
+                                       username=current_user.username, other_user=partner_username)
+    if not found:
+        print partner_user
+        print current_user
+        new_convo = Conversation()
+        new_convo.users.append(current_user)
+        new_convo.users.append(partner_user)
+        db.session.add(new_convo)
+        db.session.commit()
+        return render_template('chat.html', conversation_id=new_convo.id,
+                               username=current_user.username, other_user=partner_username)
+
+
+@app.route('/api/get_users', methods=['GET'])
+def get_users():
+    authenticated_users = User.query.filter_by(authenticated=True).all()
+    return jsonpickle.encode(authenticated_users)
+
+
+@app.route('/api/conversation/<int:conversation_id>', methods=['POST', 'GET'])
+def get_and_post_conversation(conversation_id):
+    current_conversation = Conversation.query.filter_by(id=conversation_id).first()
+    if request.method == 'POST':
+        new_message = Message(request.json['message'], request.json['timestamp'], request.json['sender'])
+        current_conversation.messages.append(new_message)
+        db.session.add(new_message)
+        db.session.commit()
+        return request.json['message']
+    elif request.method == 'GET':
+        passed_list = []
+        for msg in current_conversation.messages:
+            passed_list.append(msg)
+        return jsonpickle.encode(passed_list)
 
 
 @app.before_request

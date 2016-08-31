@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="static/css/chat_style.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</head>
+<body>
+    <div id="chat_messages">
+        <ul>
+
+        </ul>
+    </div>
+    <input type="text" id="typed_message">
+    <button id="submitButton">Send!</button>
+
+    <script type="text/javascript">
+        $(function() {
+
+            $.ajax({
+                url: '/api/conversation' + '/{{ conversation_id }}',
+                type: 'GET',
+                success: function(messages_to_render) {
+                    $.each(JSON.parse(messages_to_render), function(i, message) {
+                        $('#chat_messages').append('<li><b>' + message.sender + ': </b>' + message.message + '</li>');
+                    });
+                }
+            });
+
+            $('#submitButton').click(function() {
+                var typed_message = $('#typed_message').val();
+                var data = {
+                            message: typed_message,
+                            timestamp: '20:20',
+                            sender: '{{ username }}'
+                };
+
+                $.ajax({
+                    url: '/api/conversation' + '/{{ conversation_id }}',
+                    data: JSON.stringify(data , null, '\t'),
+                    contentType: 'application/json;charset=UTF-8',
+                    type: 'POST',
+                    success: function() {
+                        $('#chat_messages').append('<li><b>' + data.sender + ': </b>' + data.message + '</li>');
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
