@@ -113,7 +113,7 @@ def get_users():
 
 
 @app.route('/api/conversation/<int:conversation_id>', methods=['POST', 'GET'])
-def get_and_post_conversation(conversation_id):
+def get_and_post_conversation(conversation_id, last_id):
     current_conversation = Conversation.query.filter_by(id=conversation_id).first()
     if request.method == 'POST':
         new_message = Message(request.json['message'], request.json['timestamp'], request.json['sender'])
@@ -122,9 +122,7 @@ def get_and_post_conversation(conversation_id):
         db.session.commit()
         return request.json['message']
     elif request.method == 'GET':
-        passed_list = []
-        for msg in current_conversation.messages:
-            passed_list.append(msg)
+        passed_list = [ x for x in current_conversation.messages if x.id > last_id ]
         return jsonpickle.encode(passed_list)
 
 

@@ -18,6 +18,21 @@
     <script type="text/javascript">
         $(function() {
 
+            var lastMessageId = 0;
+            var refreshFrequency = 500;
+            window.setInterval(refreshFrequency, function() {
+                $.ajax({
+                    url: '/api/conversation' + '/{{ conversation_id }}' + '?last_id=' + lastMessageId,
+                    type: 'GET',
+                    success: function(messages_to_render) {
+                        $.each(JSON.parse(messages_to_render), function(i, message) {
+                            $('#chat_messages').append('<li><b>' + message.sender + ': </b>' + message.message + '</li>');
+                            lastMessageId = message.id;
+                        });
+                    }
+                });
+            });
+
             $.ajax({
                 url: '/api/conversation' + '/{{ conversation_id }}',
                 type: 'GET',
