@@ -29,7 +29,7 @@ from models import User, Conversation, Message, db
 @login_required
 def index():
     authenticated_users = User.query.filter_by(authenticated=True).all()
-    return render_template('index.html', authenticated_users=authenticated_users)
+    return render_template('index.html', authenticated_users=authenticated_users, current_username=current_user.username)
 
 
 @login_manager.user_loader
@@ -83,7 +83,6 @@ def login_post():
 
 @app.route('/conversation/<partner_username>')
 def conversation(partner_username):
-    found = False
     partner_user = User.query.filter_by(username=partner_username).first()
     all_conversations = Conversation.query.all()
     if all_conversations:
@@ -91,19 +90,17 @@ def conversation(partner_username):
             users_in_current = current.users
             # If the users are alone in the conversation
             if (current_user in users_in_current) and (partner_user in users_in_current) and len(users_in_current) <= 2:
-                found = True
                 return render_template('chat.html', conversation_id=current.id,
                                        username=current_user.username, other_user=partner_username)
-    if not found:
-        print partner_user
-        print current_user
-        new_convo = Conversation()
-        new_convo.users.append(current_user)
-        new_convo.users.append(partner_user)
-        db.session.add(new_convo)
-        db.session.commit()
-        return render_template('chat.html', conversation_id=new_convo.id,
-                               username=current_user.username, other_user=partner_username)
+    print partner_user
+    print current_user
+    new_convo = Conversation()
+    new_convo.users.append(current_user)
+    new_convo.users.append(partner_user)
+    db.session.add(new_convo)
+    db.session.commit()
+    return render_template('chat.html', conversation_id=new_convo.id,
+                           username=current_user.username, other_user=partner_username)
 
 
 @app.route('/api/get_users', methods=['GET'])
@@ -113,7 +110,7 @@ def get_users():
 
 
 @app.route('/api/conversation/<int:conversation_id>', methods=['POST', 'GET'])
-def get_and_post_conversation(conversation_id, last_id):
+def get_and_post_conversation(conversation_id):
     current_conversation = Conversation.query.filter_by(id=conversation_id).first()
     if request.method == 'POST':
         new_message = Message(request.json['message'], request.json['timestamp'], request.json['sender'])
@@ -122,7 +119,8 @@ def get_and_post_conversation(conversation_id, last_id):
         db.session.commit()
         return request.json['message']
     elif request.method == 'GET':
-        passed_list = [ x for x in current_conversation.messages if x.id > last_id ]
+        last_id = int(request.args.get('last_id'))
+        passed_list = [x for x in current_conversation.messages if x.id > last_id]
         return jsonpickle.encode(passed_list)
 
 

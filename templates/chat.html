@@ -12,39 +12,56 @@
 
         </ul>
     </div>
-    <input type="text" id="typed_message">
-    <button id="submitButton">Send!</button>
-
+    <form name="chat_input" id="chat_input">
+        <input type="text" id="typed_message"/>
+        <button id="submitButton" type="submit">Send!</button>
+    </form>
     <script type="text/javascript">
         $(function() {
 
+            function getSender(received_sender) {
+                if(received_sender == '{{ username }}')
+                    return 'You';
+                return received_sender;
+            }
+
+
+            $(window).bind('beforeunload', function(event){
+                $.ajax({
+                    url: '/logout',
+                    type: 'GET'
+                });
+            });
+
             var lastMessageId = 0;
             var refreshFrequency = 500;
-            window.setInterval(refreshFrequency, function() {
+            window.setInterval(function() {
                 $.ajax({
                     url: '/api/conversation' + '/{{ conversation_id }}' + '?last_id=' + lastMessageId,
                     type: 'GET',
                     success: function(messages_to_render) {
                         $.each(JSON.parse(messages_to_render), function(i, message) {
-                            $('#chat_messages').append('<li><b>' + message.sender + ': </b>' + message.message + '</li>');
+                            $('#chat_messages').append('<li><b>' + getSender(message.sender) + ': </b>' + message.message + '</li>');
                             lastMessageId = message.id;
                         });
                     }
                 });
-            });
+            }, refreshFrequency);
 
             $.ajax({
-                url: '/api/conversation' + '/{{ conversation_id }}',
+                url: '/api/conversation' + '/{{ conversation_id }}' + '?last_id=' + lastMessageId,
                 type: 'GET',
                 success: function(messages_to_render) {
                     $.each(JSON.parse(messages_to_render), function(i, message) {
-                        $('#chat_messages').append('<li><b>' + message.sender + ': </b>' + message.message + '</li>');
+                        $('#chat_messages').append('<li><b>' + getSender(message.sender) + ': </b>' + message.message + '</li>');
+                        lastMessageId = message.id;
                     });
                 }
             });
 
-            $('#submitButton').click(function() {
+            $('#chat_input').submit(function(event) {
                 var typed_message = $('#typed_message').val();
+                $('#typed_message').val('');
                 var data = {
                             message: typed_message,
                             timestamp: '20:20',
@@ -56,13 +73,12 @@
                     data: JSON.stringify(data , null, '\t'),
                     contentType: 'application/json;charset=UTF-8',
                     type: 'POST',
-                    success: function() {
-                        $('#chat_messages').append('<li><b>' + data.sender + ': </b>' + data.message + '</li>');
-                    },
                     error: function(error) {
                         console.log(error);
                     }
                 });
+                event.preventDefault();
+                return false;
             });
         });
     </script>
