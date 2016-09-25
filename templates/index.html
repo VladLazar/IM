@@ -3,17 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index.css') }}">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 </head>
 <body>
     <h1>Hello {{ current_username }}!</h1>
     <h1>Logged in Users:</h1>
     <ul>
-        {% for user in authenticated_users %}
-            {% if current_username != user.username %}
-                <li><p><a href="{{ url_for('conversation', partner_username=user.username)}}">{{user.username}}</a></p></li>
-            {% endif %}
-        {% endfor %}
+        {% if authenticated_users %}
+            {% for user in authenticated_users %}
+                {% if current_username != user.username %}
+                    <li><p><a href="{{ url_for('conversation', partner_username=user.username)}}">{{ user.username }}</a></p></li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </ul>
+
+    {% if conferences %}
+        {% for conference in conferences %}
+            <p>Your conferences</p>
+            <div class="row">
+                <label style="display: block">Conference with users:
+                    {% for user in conference.users %}
+                        {% if current_username != user.username %}
+                            {{user.username}} 
+                        {% endif %}
+                    {% endfor %}
+                </label>
+                <form action="{{url_for('conference', conference_id=conference.id)}}">
+                    <input type="submit" value="Go to conference!" />
+                </form>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if invites %}
+        {% for invite in invites %}
+            <p>Your invites:</p>
+            <div class="row">
+                <label style="display: block">Invite from {{ invite.initiator }} to join his conference!</label>
+                <button type="button" class="ButtonId" data-conference_id={{invite.conference_id}} 
+                data-invite_id={{invite.id}}>Accept invite</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <p><a href="{{ url_for('create_conference') }}">Create a conference!</a></p>
     <p><a href="{{ url_for('logout') }}">Logout</a></p>
+
+    <script type="text/javascript">
+        $(function() {
+
+            $(".ButtonId").on('click',function(){
+                $(this).toggleClass('button_clicked', $(this).hasClass('button_clicked') === false);
+                $('.ButtonId').text('Done');
+
+                var post_data = {
+                    invite_id: $(this).data("invite_id")
+                };
+
+                $.ajax({
+                    data: JSON.stringify(post_data , null, '\t'),
+                    contentType: 'application/json;charset=UTF-8',
+                    url: '/api/accept_invite/' + $(this).data("conference_id"),
+                    type: 'POST',
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+        });
+    </script>
 </body>
 </html>

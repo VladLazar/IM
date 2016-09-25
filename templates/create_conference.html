@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a conference!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/create_conference.css') }}">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Select the users you want to add to your conference!</h1>
+    {% for user in users %}
+        {% if created_by_username != user.username %}
+            <div class="row">
+                <label style="display: block">{{ user.username }}</label>
+                <button type="button" class="ButtonId" data-username={{user.username}}>Add</button>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <script type="text/javascript">
+        $(function() {
+
+            $(".ButtonId").on('click',function(){
+                $(this).toggleClass('button_clicked', $(this).hasClass('button_clicked') == false)
+                $(this).text('Done');
+
+                var new_data = {
+                     initiator: '{{ invite.initiator }}',
+                     conference_id: '{{ invite.conference_id }}'
+                };
+
+                $.ajax({
+                    url: '/api/send_invite/' + $(this).data("username"),
+                    data: JSON.stringify(new_data , null, '\t'),
+                    contentType: 'application/json;charset=UTF-8',
+                    type: 'POST',
+                    success: function() {
+                        alert('Succes');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>

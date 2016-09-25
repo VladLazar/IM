@@ -1,0 +1,287 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"in",
+				"input	Tag"
+			],
+			[
+				"di",
+				"div	Tag"
+			],
+			[
+				"soc",
+				"socket_bind"
+			],
+			[
+				"say",
+				"say_bye"
+			],
+			[
+				"sa",
+				"say_hi"
+			],
+			[
+				"fac",
+				"fac_treaba_cu"
+			],
+			[
+				"im",
+				"imshow"
+			],
+			[
+				"nor",
+				"normalize"
+			],
+			[
+				"final",
+				"final_atom"
+			],
+			[
+				"we",
+				"weird_rays"
+			],
+			[
+				"pla",
+				"plane_intersection_point"
+			],
+			[
+				"pr",
+				"provision"
+			],
+			[
+				"Reac",
+				"ReactDOM"
+			],
+			[
+				"A",
+				"AwesomeComponent"
+			],
+			[
+				"pas",
+				"passwords"
+			],
+			[
+				"passw",
+				"password"
+			],
+			[
+				"s",
+				"socket"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 174.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/balu/IM/templates/register.sublime-project",
+		"/home/balu/Desktop/fasf/draw.js",
+		"/home/balu/Desktop/fasf/index.html",
+		"/home/balu/abcTest/chat.html",
+		"/home/balu/RomeWork/server.py",
+		"/home/balu/RomeWork/client.py",
+		"/home/balu/InstantMessenger/first_flask.py",
+		"/home/balu/InstantMessenger/client.py",
+		"/home/balu/InstantMessenger/first_flask",
+		"/home/balu/Desktop/probleme.txt",
+		"/home/balu/Desktop/ruby20minz.rb",
+		"/home/balu/Desktop/script.py",
+		"/home/balu/WorkRelated/draw.py",
+		"/home/balu/WorkRelated/sim.py",
+		"/home/balu/oneMoreTry/Cheffile",
+		"/home/balu/django/Vagrantfile",
+		"/home/balu/oneMoreTry/Vagrantfile",
+		"/home/balu/gswd-vagrant/site-cookbooks/gswd/recipes/database.rb",
+		"/home/balu/hope/Vagrantfile",
+		"/home/balu/Sites/gswd-vagrant-learnDjango/Cheffile",
+		"/home/balu/hope/Berksfile",
+		"/home/balu/Sites/gswd-vagrant-learnDjango/Vagrantfile",
+		"/home/balu/django/index.html",
+		"/home/balu/django/.provision/bootstrap.sh",
+		"/etc/hosts",
+		"/home/balu/hope/Gemfiel",
+		"/home/balu/django/.provision/nginx/vim",
+		"/home/balu/django/provision/bootstrap.sh",
+		"/home/balu/django/provision/nginx/nginx.conf",
+		"/home/balu/reac-try/src/client/app/index.jsx",
+		"/home/balu/MoreReact/index.html",
+		"/home/balu/reac-try/src/client/app/AwesomeComponent.jsx",
+		"/home/balu/MoreReact/.babelrc",
+		"/home/balu/MoreReact/webpack.config.js",
+		"/home/balu/Desktop/sketch_may29a/sketch_may29a.ino",
+		"/home/balu/MoreReact/js/client.js",
+		"/home/balu/React-HelloWorld/src/client/app/AwesomeComponent.jsx",
+		"/home/balu/React-HelloWorld/.babelrc",
+		"/home/balu/React-HelloWorld/webpack.config.js",
+		"/home/balu/reac-try/src/client/index.html",
+		"/home/balu/React-HelloWorld/src/client/app/index.jsx",
+		"/home/balu/React-HelloWorld/src/client/public/AwesomeComponent.jsx",
+		"/home/balu/reac-try/webpack.config.js",
+		"/home/balu/WorkRelated/JScripts/index.html",
+		"/home/balu/WorkRelated/JScripts/module2.js",
+		"/home/balu/WorkRelated/JScripts/module1.js",
+		"/home/balu/WorkRelated/JScripts/CreateServer",
+		"/home/balu/WorkRelated/JScripts/scripts",
+		"/home/balu/react/webpack.config.js",
+		"/home/balu/webpack.config.js",
+		"/home/balu/help",
+		"/etc/shells",
+		"/etc/vsftpd.conf",
+		"/home/balu/WorkRelated/PyScripts/greetings.py"
+	],
+	"find":
+	{
+		"height": 30.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"');"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "register.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": false,
+	"template_settings":
+	{
+	}
+}
